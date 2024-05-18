@@ -48,7 +48,11 @@ export function scale2d(sx, sy) {
  *  transformed coordinate pair in the form [x, y]
  */
 export function composeTransform(f, g) {
-  throw new Error('Implement the composeTransform function');
+    return function (x, y){
+    const [a, b] = f(x, y)
+    const [c, d] = g(a, b)
+    return[c, d]
+  }
 }
 
 /**
@@ -61,5 +65,17 @@ export function composeTransform(f, g) {
  *  if the arguments are the same on subsequent calls, or compute a new result if they are different.
  */
 export function memoizeTransform(f) {
-  throw new Error('Implement the memoizeTransform function');
+  let lastX = undefined;
+  let lastY = undefined;
+  let lastResult = undefined;
+  return function(x, y){
+    console.log(lastResult);
+    if(lastX === x && lastY === y) return lastResult;
+    lastX = x;
+    lastY = y;
+    lastResult = f(x, y);
+    return lastResult;
+    
+  }
 }
+
